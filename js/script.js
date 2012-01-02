@@ -1,3 +1,56 @@
+var quicksortUtil = (function (){
+    var quicksortUtil = {
+        genericQuicksort: function(list, compare){
+            //One element is already sorted.
+            if (list.length <= 1){
+                return list;
+            }
+            //Simple way to pick the pivot point. 
+            var pivotIndex = Math.floor(list.length/2);
+            var pivot = list[pivotIndex];
+
+            //Arrays holding the elements that have been seperated into less and more
+            var less = [];
+            var more = [];
+
+            //Simple for look using compare
+            for(var i = 0; i <list.length; i++){
+                if(i != pivotIndex){
+                    var next = list[i];
+                    if(-1 == compare(next,pivot)){
+                        less.push(next);
+                    }
+                    else {
+                        more.push(next);
+                    }            
+                }
+            }    
+            //Return the array recursively sorted
+            return quicksortUtil.genericQuicksort(less,compare).concat([pivot],quicksortUtil.genericQuicksort(more,compare));
+        },
+        //Takes in two numbers and compares them in the standard way. 
+        numericalCompare: function(a,b){
+            if(a<b)
+                return -1;
+            else if (b<a)
+                return 1;
+            return 0;
+        },
+        //Numberical quicksort. 
+        numericalQuicksort: function(list){
+            return quicksortUtil.genericQuicksort(list,quicksortUtil.numericalCompare);
+            }
+    };
+
+    return quicksortUtil;
+})();
+
+var animationUtil= (function() {
+    var animationUtil = {
+
+    };
+    return animationUtil;    
+})();
 // Takes in a list of objects and then uses the compare function to determine the ordering. 
 // It's expected that the comparsion functon returns -1 when a is less than b, 1 when a is greater than b, and 0 when they are equal. 
 Array.prototype.quicksort= function (compare){
@@ -95,7 +148,7 @@ if ( !window.requestAnimationFrame ) {
 //https://github.com/mrdoob/three.js/blob/master/examples/canvas_particles_random.html
 //http://mrdoob.com/projects/voxels/#A/afhaddadkShahhShaffShSh
 //Modified to get the quicksort out there correctly. 
-var container, stats;
+var container;
 var camera, scene, renderer, group, particle;
 var mouseX = 0, mouseY = 0;
 
