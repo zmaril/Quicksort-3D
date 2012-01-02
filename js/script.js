@@ -27,19 +27,44 @@ var quicksortUtil = (function (){
             }    
             //Return the array recursively sorted
             return quicksortUtil.genericQuicksort(less,compare).concat([pivot],quicksortUtil.genericQuicksort(more,compare));
-        },
+        }
         //Takes in two numbers and compares them in the standard way. 
-        numericalCompare: function(a,b){
+        ,numericalCompare: function(a,b){
             if(a<b)
                 return -1;
             else if (b<a)
                 return 1;
             return 0;
-        },
+        }
         //Numberical quicksort. 
-        numericalQuicksort: function(list){
+        ,numericalQuicksort: function(list){
             return quicksortUtil.genericQuicksort(list,quicksortUtil.numericalCompare);
             }
+        //Takes in a list and outputs an object that contains a pivot point, all the items in the list "less" than the pivot , and all the items  in the "more" than the pivot. 
+        //Example input: [3,2,4,5], numCompare
+        //Example output: {less:[2],pivot:3, more:[4,5]}
+        ,genericQuicksortStep: function(list,compare){
+            if (list.length <= 1){
+                return list;
+            }
+            var pivotIndex = Math.floor(list.length/2);
+            var pivot = list[pivotIndex];
+            var less = [];
+            var more = [];
+            for(var i = 0; i <list.length; i++){
+                if(i != pivotIndex){
+                    var next = list[i];
+                    if(-1 == compare(next,pivot)){
+                        less.push(next);
+                    }
+                    else {
+                        more.push(next);
+                    }            
+                }
+            }    
+            return {less:less, pivot:pivot, more: more};
+        }
+        
     };
 
     return quicksortUtil;
@@ -51,76 +76,77 @@ var animationUtil= (function() {
     };
     return animationUtil;    
 })();
-// Takes in a list of objects and then uses the compare function to determine the ordering. 
-// It's expected that the comparsion functon returns -1 when a is less than b, 1 when a is greater than b, and 0 when they are equal. 
-Array.prototype.quicksort= function (compare){
-    //One element is already sorted.
-    if (this.length <= 1){
-        return this;
-    }
-    //Simple way to pick the pivot point. 
-    var pivotIndex = Math.floor(this.length/2);
-    var pivot = this[pivotIndex];
 
-    //Arrays holding the elements that have been seperated into less and more
-    var less = [];
-    var more = [];
+// // Takes in a list of objects and then uses the compare function to determine the ordering. 
+// // It's expected that the comparsion functon returns -1 when a is less than b, 1 when a is greater than b, and 0 when they are equal. 
+// Array.prototype.quicksort= function (compare){
+//     //One element is already sorted.
+//     if (this.length <= 1){
+//         return this;
+//     }
+//     //Simple way to pick the pivot point. 
+//     var pivotIndex = Math.floor(this.length/2);
+//     var pivot = this[pivotIndex];
 
-    //Simple for look using compare
-    for(var i = 0; i <this.length; i++){
-        if(i != pivotIndex){
-            var next = this[i];
-            if(-1 == compare(next,pivot)){
-                less.push(next);
-            }
-            else {
-                more.push(next);
-            }            
-        }
-    }    
-    //Return the array recursively sorted
-    return less.quicksort(compare).concat([pivot],more.quicksort(compare));
-};
+//     //Arrays holding the elements that have been seperated into less and more
+//     var less = [];
+//     var more = [];
 
-//Takes in two numbers and compares them in the standard way. 
-var numCompare = function(a,b){
-    var state = 0;
-    if (a<b){
-        state = -1;
-    }
-    else if (b<a){
-        state = 1;
-    }
-    return state;            
-};
+//     //Simple for look using compare
+//     for(var i = 0; i <this.length; i++){
+//         if(i != pivotIndex){
+//             var next = this[i];
+//             if(-1 == compare(next,pivot)){
+//                 less.push(next);
+//             }
+//             else {
+//                 more.push(next);
+//             }            
+//         }
+//     }    
+//     //Return the array recursively sorted
+//     return less.quicksort(compare).concat([pivot],more.quicksort(compare));
+// };
 
-//Numberical quicksort. 
-Array.prototype.numQuicksort = function(){return this.quicksort(numCompare);};
+// //Takes in two numbers and compares them in the standard way. 
+// var numCompare = function(a,b){
+//     var state = 0;
+//     if (a<b){
+//         state = -1;
+//     }
+//     else if (b<a){
+//         state = 1;
+//     }
+//     return state;            
+// };
 
-//Takes in a list and outputs an object that contains a pivot point, all the items in the list "less" than the pivot , and all the items  in the "more" than the pivot. 
-//Example input: [3,2,4,5], numCompare
-//Example output: {less:[2],pivot:3, more:[4,5]}
-Array.prototype.quicksortStep = function (compare){
-    if (this.length <= 1){
-        return this;
-    }
-    var pivotIndex = Math.floor(this.length/2);
-    var pivot = this[pivotIndex];
-    var less = [];
-    var more = [];
-    for(var i = 0; i <this.length; i++){
-        if(i != pivotIndex){
-            var next = this[i];
-            if(-1 == compare(next,pivot)){
-                less.push(next);
-            }
-            else {
-                more.push(next);
-            }            
-        }
-    }    
-    return {less:less, pivot:pivot, more: more};
-};
+// //Numberical quicksort. 
+// Array.prototype.numQuicksort = function(){return this.quicksort(numCompare);};
+
+// //Takes in a list and outputs an object that contains a pivot point, all the items in the list "less" than the pivot , and all the items  in the "more" than the pivot. 
+// //Example input: [3,2,4,5], numCompare
+// //Example output: {less:[2],pivot:3, more:[4,5]}
+// Array.prototype.quicksortStep = function (compare){
+//     if (this.length <= 1){
+//         return this;
+//     }
+//     var pivotIndex = Math.floor(this.length/2);
+//     var pivot = this[pivotIndex];
+//     var less = [];
+//     var more = [];
+//     for(var i = 0; i <this.length; i++){
+//         if(i != pivotIndex){
+//             var next = this[i];
+//             if(-1 == compare(next,pivot)){
+//                 less.push(next);
+//             }
+//             else {
+//                 more.push(next);
+//             }            
+//         }
+//     }    
+//     return {less:less, pivot:pivot, more: more};
+// };
 
 /**
  * Provides requestAnimationFrame in a cross browser way.
@@ -326,10 +352,10 @@ var changeFunction = function(){
         return;
     }
 
-    var quicksorted= next.quicksortStep(function(a,b){
+    var quicksorted= quicksortUtil.genericQuicksortStep(next,function(a,b){
                          var distA= Math.pow(a.position.x,2) + Math.pow(a.position.y,2);
                          var distB= Math.pow(b.position.x,2) + Math.pow(b.position.y,2);
-                         return numCompare(distA,distB);
+                         return quicksortUtil.numericalCompare(distA,distB);
                      });
     
     var listOfZ =[];
@@ -339,7 +365,7 @@ var changeFunction = function(){
         point.material.color.setRGB(0,0,0);        
         });
 
-    var sortedZ= listOfZ.numQuicksort();
+    var sortedZ= quicksortUtil.numericalQuicksort(listOfZ);
     var lessZ= sortedZ.slice(0,quicksorted.less.length);
     var pivotZ= sortedZ.slice(quicksorted.less.length,quicksorted.less.length+1);
     var moreZ= sortedZ.slice(quicksorted.less.length+1);
@@ -400,8 +426,8 @@ var changeFunction = function(){
     }
 
     //Sort the arrays with quicksort. It looks better to do all the big stuff first.
-    leftovers = leftovers.quicksort(function(a,b){
-        return numCompare(a.length,b.length);
+    leftovers = quicksortUtil.genericQuicksort(leftovers,function(a,b){
+        return quicksortUtil.numericalCompare(a.length,b.length);
     });
 
     setTimeout(changeFunction,speed);
